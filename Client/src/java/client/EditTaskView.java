@@ -1,0 +1,735 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * NewTaskView.java
+ *
+ * Created on 22-nov-2010, 17.30.41
+ */
+
+package client;
+
+import org.dto.TaskDescriptor;
+import org.dto.TaskTYPE;
+import java.io.File;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import org.dto.OSTYPE;
+import org.jdesktop.application.Action;
+
+/**
+ *Create New Task to insert into Workflow
+ * @author LuigiXIV, Daniela, Marcx87
+ */
+public class EditTaskView extends javax.swing.JDialog {
+    
+    public TaskDescriptor td;
+    public org.dto.Workflow workflow;
+    private DefaultListModel model;
+    private int index;
+    private int inputsLenght;
+    private int outputsLenght;
+    private DefaultListModel modelInputs = new DefaultListModel();
+    private DefaultListModel modelOutputs = new DefaultListModel();
+    private String taskType = null;
+    private String taskCommand = null;
+    private String taskCPU = null;
+    private String taskRAM = null;
+    private String taskSpace = null;
+    private String taskOS = null;
+    private ArrayList<String> inputsCollection;
+    private ArrayList<String> outputsCollection;
+    /** Creates new form NewTaskView */
+    public EditTaskView(int index, org.dto.Workflow workflow, DefaultListModel model) {
+        super(MiddlewareMain.getApplication().getMainFrame(),true);
+        initComponents();
+        this.index = index;
+        this.workflow = workflow;
+        this.model = model;
+        //String item = String.valueOf(model.get(index));
+        //System.out.println("Item: " + item);
+//        String [] arrayString = item.split(" - ");
+//
+//        typedText1 = arrayString[1].split(": ")[1];
+//        System.out.println("TypedText1: " + typedText1);
+//        if (arrayString[2].split(": ").length > 1)
+//        {
+//            typedText2 = arrayString[2].split(": ")[1];
+//            System.out.println("TypedText2: " + typedText2);
+//        }
+//        if (arrayString[3].split(": ").length > 1)
+//        {
+//            typedText3 = arrayString[3].split(": ")[1];
+//            System.out.println("TypedText3: " + typedText3);
+//        }
+//        if(typedText1.equals(TaskTYPE.Executable.toString()))
+//        {
+//            jComboBox1.setSelectedIndex(0);
+//        }
+//        else
+//        {
+//            jComboBox1.setSelectedIndex(1);
+//        }
+//        jTextField2.setText(typedText2);
+//        jTextField3.setText(typedText3);
+        this.td = workflow.getTask(this.index);
+        this.taskType = String.valueOf(td.getType());
+        if (td.getType().equals(TaskTYPE.Executable))
+            jComboBox1.setSelectedIndex(0);
+        else
+            jComboBox1.setSelectedIndex(1);
+        this.taskCommand = String.valueOf(this.td.getCommand());
+        this.taskCPU = String.valueOf(this.td.getCpuRequired());
+        this.taskRAM = String.valueOf(this.td.getRamRequired());
+        this.taskSpace = String.valueOf(this.td.getSpaceRequired());
+        this.taskOS = String.valueOf(td.getOperatingSystemRequired());
+        if(td.getOperatingSystemRequired().equals(OSTYPE.WindowsXP)){
+            jComboBox2.setSelectedIndex(0);
+        }
+        else if(td.getOperatingSystemRequired().equals(OSTYPE.WindowsVista))
+        {
+            jComboBox2.setSelectedIndex(1);
+        }
+        else if(td.getOperatingSystemRequired().equals(OSTYPE.Windows7))
+        {
+            jComboBox2.setSelectedIndex(2);
+        }
+        else
+            jComboBox2.setSelectedIndex(3);
+
+        inputsLenght = td.getInputs().size();
+        outputsLenght = td.getOutputs().size();
+        this.inputsCollection = this.td.getInputs();
+        this.outputsCollection = this.td.getOutputs();
+
+        this.Command.setText(taskCommand);
+        this.CPURequired.setText(taskCPU);
+        this.RamRequired.setText(taskRAM);
+        this.SpaceRequired.setText(taskSpace);
+        for (int i = 0; i < inputsCollection.size(); i++)
+            modelInputs.addElement(inputsCollection.get(i));
+        for (int i = 0; i < outputsCollection.size(); i++)
+            modelOutputs.addElement(outputsCollection.get(i));
+    }
+
+    public String getValidatedText()
+    {
+        return String.valueOf(td.getID()) +
+                " - Type: " + td.getType().toString() +
+                " - Command: " + td.getCommand() +
+                " - Ram: " +td.getRamRequired()+
+                " - Space: " + td.getSpaceRequired() +
+                " - OS: " + td.getOperatingSystemRequired();
+    }
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        Command = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        CPURequired = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        RamRequired = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        SpaceRequired = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
+        Inputs = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        Outputs = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        validationLabelCPU = new javax.swing.JLabel();
+        validationLabelRAM = new javax.swing.JLabel();
+        validationLabelSpace = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance().getContext().getResourceMap(EditTaskView.class);
+        setTitle(resourceMap.getString("Form.title")); // NOI18N
+        setName("Form"); // NOI18N
+        setResizable(false);
+
+        jPanel1.setBackground(resourceMap.getColor("jPanel1.background")); // NOI18N
+        jPanel1.setName("jPanel1"); // NOI18N
+        jPanel1.setPreferredSize(new java.awt.Dimension(569, 393));
+
+        jLabel1.setForeground(resourceMap.getColor("jLabel1.foreground")); // NOI18N
+        jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
+        jLabel1.setName("jLabel1"); // NOI18N
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String []{TaskTYPE.Executable.toString(), TaskTYPE.scriptBash.toString()}));
+        jComboBox1.setName("jComboBox1"); // NOI18N
+        jComboBox1.setPreferredSize(new java.awt.Dimension(155, 25));
+
+        jLabel2.setForeground(resourceMap.getColor("jLabel2.foreground")); // NOI18N
+        jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
+        jLabel2.setName("jLabel2"); // NOI18N
+
+        Command.setName("Command"); // NOI18N
+        Command.setPreferredSize(new java.awt.Dimension(155, 25));
+
+        jLabel3.setForeground(resourceMap.getColor("jLabel3.foreground")); // NOI18N
+        jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
+        jLabel3.setName("jLabel3"); // NOI18N
+
+        CPURequired.setInputVerifier(new IntegerVerifier());
+        CPURequired.setName("CPURequired"); // NOI18N
+        CPURequired.setPreferredSize(new java.awt.Dimension(155, 25));
+
+        jLabel4.setForeground(resourceMap.getColor("jLabel4.foreground")); // NOI18N
+        jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
+        jLabel4.setName("jLabel4"); // NOI18N
+
+        RamRequired.setInputVerifier(new IntegerVerifier());
+        RamRequired.setName("RAMRequired"); // NOI18N
+        RamRequired.setPreferredSize(new java.awt.Dimension(155, 25));
+
+        jLabel5.setForeground(resourceMap.getColor("jLabel5.foreground")); // NOI18N
+        jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
+        jLabel5.setName("jLabel5"); // NOI18N
+
+        SpaceRequired.setInputVerifier(new IntegerVerifier());
+        SpaceRequired.setName("SpaceRequired"); // NOI18N
+        SpaceRequired.setPreferredSize(new java.awt.Dimension(155, 25));
+
+        jLabel6.setForeground(resourceMap.getColor("jLabel6.foreground")); // NOI18N
+        jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
+        jLabel6.setName("jLabel6"); // NOI18N
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String []{OSTYPE.WindowsXP.toString(), OSTYPE.WindowsVista.toString(), OSTYPE.Windows7.toString(), OSTYPE.Unix.toString()}));
+        jComboBox2.setName("jComboBox2"); // NOI18N
+        jComboBox2.setPreferredSize(new java.awt.Dimension(155, 25));
+
+        jLabel7.setForeground(resourceMap.getColor("jLabel7.foreground")); // NOI18N
+        jLabel7.setText(resourceMap.getString("jLabel7.text")); // NOI18N
+        jLabel7.setName("jLabel7"); // NOI18N
+
+        Inputs.setMinimumSize(new java.awt.Dimension(100, 80));
+        Inputs.setName("Inputs"); // NOI18N
+        Inputs.setPreferredSize(new java.awt.Dimension(300, 100));
+
+        jList1.setModel(modelInputs);
+        jList1.setName("jList1"); // NOI18N
+        jList1.setPreferredSize(new java.awt.Dimension(45, 45));
+        jList1.setVisibleRowCount(5);
+        Inputs.setViewportView(jList1);
+
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance().getContext().getActionMap(EditTaskView.class, this);
+        jButton4.setAction(actionMap.get("OpenFile")); // NOI18N
+        jButton4.setText(resourceMap.getString("jButton4.text")); // NOI18N
+        jButton4.setToolTipText(resourceMap.getString("jButton4.toolTipText")); // NOI18N
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton4.setMaximumSize(new java.awt.Dimension(59, 20));
+        jButton4.setMinimumSize(new java.awt.Dimension(59, 20));
+        jButton4.setName("jButton4"); // NOI18N
+        jButton4.setPreferredSize(new java.awt.Dimension(80, 30));
+
+        jButton5.setAction(actionMap.get("RemoveInput")); // NOI18N
+        jButton5.setText(resourceMap.getString("jButton5.text")); // NOI18N
+        jButton5.setName("jButton5"); // NOI18N
+        jButton5.setPreferredSize(new java.awt.Dimension(80, 30));
+
+        jLabel8.setForeground(resourceMap.getColor("jLabel8.foreground")); // NOI18N
+        jLabel8.setText(resourceMap.getString("jLabel8.text")); // NOI18N
+        jLabel8.setName("jLabel8"); // NOI18N
+
+        Outputs.setMinimumSize(new java.awt.Dimension(100, 80));
+        Outputs.setName("Outputs"); // NOI18N
+        Outputs.setPreferredSize(new java.awt.Dimension(300, 100));
+
+        jList2.setModel(modelOutputs);
+        jList2.setName("jList2"); // NOI18N
+        jList2.setVisibleRowCount(5);
+        Outputs.setViewportView(jList2);
+
+        jButton6.setAction(actionMap.get("NewOutputFile")); // NOI18N
+        jButton6.setText(resourceMap.getString("jButton6.text")); // NOI18N
+        jButton6.setToolTipText(resourceMap.getString("jButton6.toolTipText")); // NOI18N
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton6.setMaximumSize(new java.awt.Dimension(59, 20));
+        jButton6.setMinimumSize(new java.awt.Dimension(59, 20));
+        jButton6.setName("jButton6"); // NOI18N
+        jButton6.setPreferredSize(new java.awt.Dimension(80, 30));
+
+        jButton7.setAction(actionMap.get("RemoveOutput")); // NOI18N
+        jButton7.setText(resourceMap.getString("jButton7.text")); // NOI18N
+        jButton7.setName("jButton7"); // NOI18N
+        jButton7.setPreferredSize(new java.awt.Dimension(80, 30));
+
+        jButton1.setAction(actionMap.get("editSelectedTask")); // NOI18N
+        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
+        jButton1.setToolTipText(resourceMap.getString("jButton1.toolTipText")); // NOI18N
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setName("jButton1"); // NOI18N
+        jButton1.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        jButton2.setAction(actionMap.get("Close")); // NOI18N
+        jButton2.setText(resourceMap.getString("jButton2.text")); // NOI18N
+        jButton2.setToolTipText(resourceMap.getString("jButton2.toolTipText")); // NOI18N
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.setName("jButton2"); // NOI18N
+        jButton2.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        validationLabelCPU.setFont(resourceMap.getFont("validationLabelCPU.font")); // NOI18N
+        validationLabelCPU.setForeground(resourceMap.getColor("validationLabelCPU.foreground")); // NOI18N
+        validationLabelCPU.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        validationLabelCPU.setFocusable(false);
+        validationLabelCPU.setName("validationLabelCPU"); // NOI18N
+        validationLabelCPU.setPreferredSize(new java.awt.Dimension(230, 20));
+
+        validationLabelRAM.setFont(resourceMap.getFont("validationLabelCPU.font")); // NOI18N
+        validationLabelRAM.setForeground(resourceMap.getColor("validationLabelRAM.foreground")); // NOI18N
+        validationLabelRAM.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        validationLabelRAM.setFocusable(false);
+        validationLabelRAM.setName("validationLabelRAM"); // NOI18N
+        validationLabelRAM.setPreferredSize(new java.awt.Dimension(230, 20));
+
+        validationLabelSpace.setFont(resourceMap.getFont("validationLabelCPU.font")); // NOI18N
+        validationLabelSpace.setForeground(resourceMap.getColor("validationLabelSpace.foreground")); // NOI18N
+        validationLabelSpace.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        validationLabelSpace.setFocusable(false);
+        validationLabelSpace.setName("validationLabelSpace"); // NOI18N
+        validationLabelSpace.setPreferredSize(new java.awt.Dimension(230, 20));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(validationLabelCPU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validationLabelRAM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validationLabelSpace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(357, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(0, 8, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2))
+                            .addGap(23, 23, 23)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Command, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(20, 20, 20)
+                            .addComponent(jLabel7)
+                            .addGap(31, 31, 31)
+                            .addComponent(Inputs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addGap(63, 63, 63)
+                            .addComponent(CPURequired, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(90, 90, 90)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(40, 40, 40)
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5))
+                            .addGap(50, 50, 50)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(RamRequired, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(SpaceRequired, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(20, 20, 20)
+                            .addComponent(jLabel8)
+                            .addGap(19, 19, 19)
+                            .addComponent(Outputs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addGap(71, 71, 71)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(90, 90, 90)
+                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(40, 40, 40)
+                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(145, 145, 145)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(60, 60, 60)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 8, Short.MAX_VALUE)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(103, 103, 103)
+                .addComponent(validationLabelCPU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(validationLabelRAM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(validationLabelSpace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(178, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(0, 22, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(1, 1, 1)
+                            .addComponent(jLabel1)
+                            .addGap(33, 33, 33)
+                            .addComponent(jLabel2))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(26, 26, 26)
+                            .addComponent(Command, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(1, 1, 1)
+                            .addComponent(jLabel7))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(1, 1, 1)
+                            .addComponent(Inputs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel3)
+                        .addComponent(CPURequired, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(7, 7, 7)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(7, 7, 7)
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(13, 13, 13)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addGap(33, 33, 33)
+                            .addComponent(jLabel5))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(RamRequired, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(25, 25, 25)
+                            .addComponent(SpaceRequired, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel8)
+                        .addComponent(Outputs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel6)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(7, 7, 7)
+                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(7, 7, 7)
+                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(28, 28, 28)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(0, 23, Short.MAX_VALUE)))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * This method is called when Button Ok is cliked, it create new TaskDescriptor with
+     * the specified fields typed in TextFields and ComboBox
+     */
+    @Action
+    public void editSelectedTask() {
+        //Se i valori dei campi sono stati modificati rispetto all'inizio allora si procede
+        if (!taskType.equals(this.jComboBox1.getSelectedItem().toString())||
+                !taskOS.equals(this.jComboBox2.getSelectedItem().toString())||
+                !taskCPU.equals(this.CPURequired.getText()) ||
+                !taskRAM.equals(this.RamRequired.getText()) ||
+                !taskSpace.equals(this.SpaceRequired.getText()) ||
+                !taskCommand.equals(this.Command.getText()) ||
+                this.isListModified())
+        {
+            if(this.Command.getText()!=null &&
+                this.CPURequired.getText()!=null &&
+                this.RamRequired.getText()!=null &&
+                this.SpaceRequired.getText()!=null &&
+                this.Command.getText().length() > 0 &&
+                this.CPURequired.getText().length() > 0 &&
+                this.RamRequired.getText().length() > 0 &&
+                this.SpaceRequired.getText().length() > 0 &&
+                !modelInputs.isEmpty())
+            {
+                //this.td = workflow.getTask(index);
+                workflow.getTasks().remove(this.td);
+                model.remove(index);
+                inputsCollection.clear();
+                outputsCollection.clear();
+                if(this.jComboBox1.getSelectedItem().equals(TaskTYPE.Executable.toString()))
+                {
+                    this.td.setType(TaskTYPE.Executable);
+                    System.out.println("JComboBox: " + jComboBox1.getSelectedItem().toString());
+                }
+                else
+                {
+                    this.td.setType(TaskTYPE.scriptBash);
+                    System.out.println("JComboBox: " + jComboBox1.getSelectedItem().toString());
+                }
+                
+                if(taskOS.equals(OSTYPE.Unix.toString()))
+                    this.td.setOperantingSystemRequired(OSTYPE.Unix);
+                else if(taskOS.equals(OSTYPE.Windows7.toString()))
+                    this.td.setOperantingSystemRequired(OSTYPE.Windows7);
+                else if(taskOS.equals(OSTYPE.WindowsVista.toString()))
+                    this.td.setOperantingSystemRequired(OSTYPE.WindowsVista);
+                else
+                    this.td.setOperantingSystemRequired(OSTYPE.WindowsXP);
+
+                this.td.setCommand(this.Command.getText());
+                this.td.setCpuRequired(Integer.parseInt(this.CPURequired.getText()));
+                this.td.setRamRequired(Integer.parseInt(this.RamRequired.getText()));
+                this.td.setSpaceRequired(Integer.parseInt(this.SpaceRequired.getText()));
+
+                for(int i = 0; i < modelInputs.size(); i++){
+                    this.inputsCollection.add(String.valueOf(modelInputs.get(i)));
+                }
+                this.td.setInputs(inputsCollection);
+
+                for(int i = 0; i < modelOutputs.size(); i++){
+                    this.outputsCollection.add(String.valueOf(modelOutputs.get(i)));
+                }
+                this.td.setOutputs(outputsCollection);
+               
+                int err = workflow.addTask(td);
+                if(err == -1)
+                {
+                     JOptionPane.showMessageDialog(this,
+                       "Errore nell'inserimento del nuovo task",
+                       "Error",
+                       JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                {
+                //String visualTd = String.valueOf(td.getID()) + " - Type: " + typedText1 + " - Command: " +  td.getCommand() + " - Link: " +td.getLink();
+                //model.addElement(visualTd);
+                    model.addElement(String.valueOf(td.getID()) +
+                    " - Type: " + td.getType().toString() +
+                    " - Command: " + td.getCommand() +
+                    " - Ram: " +td.getRamRequired()+
+                    " - Space: " + td.getSpaceRequired());
+                    this.dispose();
+                }
+            }
+            else
+            {
+               JOptionPane.showMessageDialog(this,
+                       "Riempire tutti i campi",
+                       "Error",
+                       JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else
+            this.dispose();
+    }
+
+    /**
+     * This method Close the window, and it is called when Cancel button is pressed
+     */
+    @Action
+    public void Close() {
+        this.dispose();
+    }
+
+    @Action
+    public void OpenFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        int n = fileChooser.showOpenDialog(this);
+        if (n == JFileChooser.APPROVE_OPTION)
+        {
+            File f = fileChooser.getSelectedFile();
+            if (f !=null)
+            {
+                this.modelInputs.addElement(f.getPath());
+            }
+        }
+    }
+
+    @Action
+    public void RemoveInput() {
+        int[] input = this.jList1.getSelectedIndices();
+        if(input != null){
+            for (int i=0;i<input.length;i++){
+                this.modelInputs.remove(input[i]);
+            }
+        }
+    }
+
+    @Action
+    public void RemoveOutput() {
+        int[] output = this.jList2.getSelectedIndices();
+        if(output != null){
+            for (int i=0;i<output.length;i++){
+                this.modelOutputs.remove(output[i]);
+            }
+        }
+    }
+
+    @Action
+    public void NewOutputFile() {
+        String response = JOptionPane.showInputDialog(null,
+            "Inserire nome del file di output",
+            "File:",
+            JOptionPane.PLAIN_MESSAGE);
+        if (response!=null){
+            this.modelOutputs.addElement(response);
+        }
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField CPURequired;
+    private javax.swing.JTextField Command;
+    private javax.swing.JScrollPane Inputs;
+    private javax.swing.JScrollPane Outputs;
+    private javax.swing.JTextField RamRequired;
+    private javax.swing.JTextField SpaceRequired;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JList jList1;
+    private javax.swing.JList jList2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel validationLabelCPU;
+    private javax.swing.JLabel validationLabelRAM;
+    private javax.swing.JLabel validationLabelSpace;
+    // End of variables declaration//GEN-END:variables
+
+    private boolean isListModified() {
+        if (inputsLenght != modelInputs.size() ||
+            outputsLenght != modelOutputs.size()){
+            System.out.println("Primo if, ritorno vero");
+            return true;
+        }
+        for(int i = 0; i < inputsCollection.size(); i++){
+            if(!modelInputs.contains(inputsCollection.get(i))){
+                System.out.println("Secondo if, ritorno vero");
+                return true;
+            }
+        }
+        for(int i = 0; i < outputsCollection.size(); i++){
+            if(!modelOutputs.contains(outputsCollection.get(i))){
+                System.out.println("Terzo if, ritorno vero");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private class IntegerVerifier extends InputVerifier {
+        @Override
+        public boolean verify(JComponent input) {
+            int value = 0;
+            JTextField tf = (JTextField) input;
+            try{
+                value = Integer.parseInt(tf.getText());
+                if(tf.getName().equals("CPURequired"))
+                {
+                    validationLabelCPU.setText("");
+                }
+                else if(tf.getName().equals("RAMRequired"))
+                {
+                    validationLabelRAM.setText("");
+                }
+                else
+                    validationLabelSpace.setText("");
+                //return true;
+            }
+            catch(NumberFormatException e){
+                if(tf.getName().equals("CPURequired"))
+                {
+                    validationLabelCPU.setText("Il campo deve contenere interi");
+                    CPURequired.setText(taskCPU);
+                }
+                else if(tf.getName().equals("RAMRequired"))
+                {
+                    validationLabelRAM.setText("Il campo deve contenere interi");
+                    RamRequired.setText(taskRAM);
+                }
+                else
+                {
+                    validationLabelSpace.setText("Il campo deve contenere interi");
+                    SpaceRequired.setText(taskSpace);
+                }
+                return false;
+            }
+            if(value>0){
+//                if(tf.getName().equals("CPURequired"))
+//                {
+//                    if(tf.getText().matches("\\d+"))
+//                    {
+//                        validationLabelCPU.setText("");
+//                        return true;
+//                    }
+//                    else{
+//                        validationLabelCPU.setText("Il campo deve contenere Interi");
+//                        CPURequired.setText("");
+//                        return false;
+//                    }
+//                }
+//                else
+                    return true;
+            }
+            else{
+                if(tf.getName().equals("CPURequired"))
+                {
+                    CPURequired.setText(taskCPU);
+                    validationLabelCPU.setText("Il campo deve essere maggiore di zero");
+                }
+                else if(tf.getName().equals("RAMRequired"))
+                {
+                    RamRequired.setText(taskRAM);
+                    validationLabelRAM.setText("Il campo deve essere maggiore di zero");
+                }
+                else
+                {
+                    SpaceRequired.setText(taskSpace);
+                    validationLabelSpace.setText("Il campo deve essere maggiore di zero");
+                }
+                return false;
+            }
+        }
+     }
+}
